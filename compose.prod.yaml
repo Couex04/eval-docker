@@ -1,0 +1,21 @@
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      target: production
+    ports: !override
+      - "8080:8080"
+    environment: !reset null
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:8080/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  backend:
+    build:
+      context: ./backend
+      target: production
+    ports: !reset []

@@ -1,0 +1,89 @@
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      target: development
+    ports:
+      - "5173:5173"
+    environment:
+      API_PROXY_TARGET: http://backend:3001
+    networks:
+      - front_net
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:5173/').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  backend:
+    build:
+      context: ./backend
+      target: development
+    ports:
+      - "3001:3001"
+    environment:
+      DB_HOST: db
+      DB_USER: postgres
+      DB_NAME: evaluation
+    networks:
+      - front_net
+      - back_net
+    secrets:
+      - db_password
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3001/api/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+      POSTGRES_DB: evaluation
+    networks:
+      - back_net
+    secrets:
+      - db_password
+    volumes:
+      - pg_data:/var/lib/postgresql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d evaluation"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+networks:
+  front_net:
+    driver: bridge
+
+  back_net:
+    driver: bridge
+    internal: true
+
+volumes:
+  pg_data:
+
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt
