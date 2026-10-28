@@ -271,3 +271,42 @@ eval-docker/
 ## 12. Bilan
 
 Ce projet met en œuvre une application web à trois services, avec deux réseaux Docker, persistance et secrets, modes développement/production, healthchecks, exécution non-root et images multi-architectures publiées sur GHCR. Les scénarios de fonctionnement, de persistance et de publication ont été testés localement.
+
+
+## Utilisation de l'intelligence artificielle
+
+### Informations sur l'IA
+
+- **Outil utilisé :** ChatGPT (OpenAI)
+- **Modèle utilisé :** GPT-6
+- **Niveau de réflexion :** Medium
+
+### Rôle de l'IA dans le projet
+
+L'intelligence artificielle a été utilisée comme outil d'accompagnement pédagogique et d'assistance technique tout au long du projet.
+
+Elle a notamment permis de :
+
+- Comprendre les concepts fondamentaux de Docker.
+- Accompagner la création et l'optimisation des Dockerfiles.
+- Aider à la configuration des services avec Docker Compose.
+- Comprendre la gestion des réseaux, volumes, secrets et healthchecks.
+- Identifier et corriger les erreurs rencontrées.
+- Accompagner la construction multi-architecture avec Docker Buildx.
+- Aider à la publication des images sur GitHub Container Registry (GHCR).
+- Structurer et rédiger la documentation du projet.
+
+### Réalisation et validation
+
+Le projet a été réalisé progressivement avec l'aide de l'IA, en privilégiant la compréhension des différentes technologies et des choix techniques.
+
+Les configurations ont été mises en place et les tests ont été exécutés dans l'environnement local, notamment :
+
+- Le fonctionnement des services frontend, backend et PostgreSQL.
+- La communication entre les conteneurs.
+- La persistance des données PostgreSQL.
+- Le fonctionnement des healthchecks.
+- L'exécution des conteneurs avec des utilisateurs non-root.
+- La construction et la publication des images AMD64 et ARM64.
+
+L'IA a été utilisée comme support de développement, de compréhension et de documentation.
